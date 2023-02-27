@@ -7,12 +7,12 @@
 #                    __/ |
 #                   |___/
 
-licenseKey: ''
 
 notificationsBotToken: ''
-# Ignorerà i tuoi messaggi e ti terrà aggiornato sul Server e sulle azioni.
+# Bot token provided by Botfather
 
 authorizedChatId: 0
-# La tua CHAT con loro, (calcoleranno soltanto te)
+# Your userID (follow the guide on Spigot to understand how to find it)
 
 findChatId: false
+# It allows you to see the userID of the person who is writing to the bot (follow the guide to understand how it works)

@@ -31,7 +31,7 @@ class Events(plugin : Main) : Listener {
     @EventHandler
     fun playerDeath(e: PlayerDeathEvent){
         if(e.deathMessage == null){
-            plugin!!.tgManager!!.sendMessageNotification("<b>${e.entity.name}</b> e' morto. [Messaggio di morte mancante]")
+            plugin!!.tgManager!!.sendMessageNotification("<b>${e.entity.name}</b> died. [Missing death message]")
         }
         else{
             plugin!!.tgManager!!.sendMessageNotification("<b>${e.deathMessage!!}</b>")
@@ -41,7 +41,7 @@ class Events(plugin : Main) : Listener {
     @EventHandler
     fun playerAdvancement(e: PlayerAdvancementDoneEvent){
         if(e.advancement.display?.title == null) return
-        plugin!!.tgManager!!.sendMessageNotification("<b>${e.player.name}</b> ha completato l'Advancement [<b>${e.advancement.display?.title}</b>]")
+        plugin!!.tgManager!!.sendMessageNotification("<b>${e.player.name}</b> has completed the advancement [<b>${e.advancement.display?.title}</b>]")
     }
 
     @EventHandler
@@ -55,7 +55,7 @@ class Events(plugin : Main) : Listener {
     }
     @EventHandler
     fun playerKickEvent(e: PlayerKickEvent){
-        plugin!!.tgManager!!.sendMessageNotification("Il giocatore <b>${e.player.name}</b> e' stato espulso\n<b>Motivazione</b>: ${e.reason}")
+        plugin!!.tgManager!!.sendMessageNotification("The player <b>${e.player.name}</b> has been kicked:\n<b>Motivazione</b>: ${e.reason}")
     }
 
 }
