@@ -1,0 +1,6 @@
+name: TelegramConnector
+version: '${project.version}'
+main: wozniaktv.telegramconnector.Main
+api-version: 1.19
+authors: [ WoZniaK_TV ]
+description: Connette il tuo server con due bot di Telegram
