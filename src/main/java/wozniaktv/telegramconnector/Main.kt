@@ -14,10 +14,6 @@ class Main : JavaPlugin() {
 
     //var plEnabled = true
 
-    init{
-        tgManager = TelegramManager(this)
-    }
-
     override fun onEnable() {
         setupOrReloadConfig()
         //advancedLicense = AdvancedLicense(config.getString("licenseKey"), "http://mc-control.thefantasticboy.ovh/verify.php", this)
@@ -32,6 +28,7 @@ class Main : JavaPlugin() {
         printAsciiArt()
         setupListeners()
         logger.info("Listeners ready!")
+        tgManager = TelegramManager(this)
         tgManager!!.sendMessageNotification("Server is <b>online</b>! =)")
         enabledTgBot = true
         //startCheckingLicenseTimer()

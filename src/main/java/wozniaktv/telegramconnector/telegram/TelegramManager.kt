@@ -12,14 +12,21 @@ class TelegramManager(plugin : Main) {
     private var plugin : Main ? = null
     private var tgNotificationBot : TelegramBot ? = null
     private var chatId : Long ? = null
-
+    private var insertedToken = false
     init{
         this.plugin = plugin
-        chatId = plugin.config.getLong("authorizedChatId")
-        if(plugin.config.getString("notificationsBotToken")!=""){
+        if(plugin.config.getString("notificationsBotToken")!="") insertedToken = true
+        if(insertedToken){
+            chatId = plugin.config.getLong("authorizedChatId")
             tgNotificationBot = TelegramBot(plugin.config.getString("notificationsBotToken"))
-            plugin.logger.info("Notifications Bot Initialized Correctly!")
+            plugin.logger.info("Notifications Bot Initialized.")
             tgNotificationBot!!.setUpdatesListener(Listener(plugin))
+        }else{
+            plugin.logger.warning("")
+            plugin.logger.warning("")
+            plugin.logger.warning("Error: Insert the token in the config.yml file!")
+            plugin.logger.warning("")
+            plugin.logger.warning("")
         }
     }
 
@@ -64,6 +71,7 @@ class TelegramManager(plugin : Main) {
     }
 
     fun sendMessageNotification(message: String){
+        if(!insertedToken) return
         val msg = stringFilterDeprecatedColors(message)
         if(!plugin!!.enabledTgBot){
             tgNotificationBot!!.execute(SendMessage(chatId,msg).parseMode(ParseMode.HTML))

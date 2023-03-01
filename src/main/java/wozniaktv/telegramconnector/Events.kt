@@ -55,7 +55,7 @@ class Events(plugin : Main) : Listener {
     }
     @EventHandler
     fun playerKickEvent(e: PlayerKickEvent){
-        plugin!!.tgManager!!.sendMessageNotification("The player <b>${e.player.name}</b> has been kicked:\n<b>Motivazione</b>: ${e.reason}")
+        plugin!!.tgManager!!.sendMessageNotification("The player <b>${e.player.name}</b> has been kicked:\n<b>Reason</b>: ${e.reason}")
     }
 
 }
