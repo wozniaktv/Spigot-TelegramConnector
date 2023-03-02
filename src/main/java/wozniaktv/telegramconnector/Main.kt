@@ -23,6 +23,7 @@ class Main : JavaPlugin() {
     override fun onEnable() {
         setupOrReloadConfig()
         advancedLicense = AdvancedLicense(config.getString("licenseKey"), "http://mc-control.thefantasticboy.ovh/verify.php", this)
+        advancedLicense!!.setSecurityKey("Tw9001oFdKKwNZop0lqF1L!zh%OpGgMGN*nn")
         if(!checkLicense()){
             logger.severe("Your license is not valid!")
             logger.warning("Contact @Lorenzo137 on Telegram to get one!")
@@ -36,7 +37,7 @@ class Main : JavaPlugin() {
         setupCommands()
         logger.info("Plugin started!")
         tgManager = TelegramManager(this)
-        tgManager!!.sendMessageNotification(config.getString("tg_messages.serverStarted")!!)
+        tgManager!!.sendMessageNotification(config.getString("tg_messages.serverStarted")!!.replace("%server%",config.getString("serverIdentifier")!!))
         enabledTgBot = true
         dbManager = DbManager(this)
         startCheckingLicenseTimer()
@@ -117,7 +118,7 @@ class Main : JavaPlugin() {
             return
         }
         enabledTgBot = false
-        tgManager!!.sendMessageNotification(config.getString("tg_messages.serverStopped")!!)
+        tgManager!!.sendMessageNotification(config.getString("tg_messages.serverStopped")!!.replace("%server%",config.getString("serverIdentifier")!!))
     }
 
 
