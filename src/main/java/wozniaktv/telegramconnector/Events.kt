@@ -20,42 +20,75 @@ class Events(plugin : Main) : Listener {
 
     @EventHandler
     fun playerJoin(e: PlayerJoinEvent){
-        plugin!!.tgManager!!.sendMessageNotification("<b>+</b> ${e.player.name}")
+        var msg = plugin!!.config.getString("tg_messages.playerJoined")
+        if(msg == "" || msg == null) return
+        msg = msg.replace("%player%",e.player.name)
+        msg = msg.replace("%server%",plugin!!.config.getString("serverIdentifier")!!)
+        plugin!!.tgManager!!.sendMessageNotification(msg)
     }
 
     @EventHandler
     fun playerQuit(e: PlayerQuitEvent){
-        plugin!!.tgManager!!.sendMessageNotification("<b>-</b> ${e.player.name}")
+        var msg = plugin!!.config.getString("tg_messages.playerLeft")
+        if(msg == "" || msg == null) return
+        msg = msg.replace("%player%",e.player.name)
+        msg = msg.replace("%server%",plugin!!.config.getString("serverIdentifier")!!)
+        plugin!!.tgManager!!.sendMessageNotification(msg)
     }
 
     @EventHandler
     fun playerDeath(e: PlayerDeathEvent){
-        if(e.deathMessage == null){
-            plugin!!.tgManager!!.sendMessageNotification("<b>${e.entity.name}</b> died. [Missing death message]")
+        var msg = plugin!!.config.getString("tg_messages.playerDeath")
+        if(msg == "" || msg == null) return
+        if(msg.contains("%deathMessage%") && e.deathMessage==null) {
+            plugin!!.logger.warning("${e.entity.name}'s Death Event Message has been tried to use, but i couldn't find it. It may be that you're modifying your death messages in a strange way?")
+            return
         }
-        else{
-            plugin!!.tgManager!!.sendMessageNotification("<b>${e.deathMessage!!}</b>")
-        }
+        msg = msg.replace("%player%",e.entity.name)
+        msg = msg.replace("%deathMessage%",e.deathMessage!!)
+        msg = msg.replace("%server%",plugin!!.config.getString("serverIdentifier")!!)
+        plugin!!.tgManager!!.sendMessageNotification(msg)
+
     }
 
     @EventHandler
     fun playerAdvancement(e: PlayerAdvancementDoneEvent){
         if(e.advancement.display?.title == null) return
-        plugin!!.tgManager!!.sendMessageNotification("<b>${e.player.name}</b> has completed the advancement [<b>${e.advancement.display?.title}</b>]")
+        var msg = plugin!!.config.getString("tg_messages.playerAdvancementDoneEvent")
+        if(msg=="" || msg == null) return
+        msg = msg.replace("%player%",e.player.name)
+        msg = msg.replace("%advancement%",e.advancement.display!!.title)
+        msg = msg.replace("%server%",plugin!!.config.getString("serverIdentifier")!!)
+        plugin!!.tgManager!!.sendMessageNotification(msg)
     }
 
     @EventHandler
     fun playerCommand(e: PlayerCommandPreprocessEvent){
-        plugin!!.tgManager!!.sendMessageNotification("<b>${e.player.name}</b> : <code>${e.message}</code>")
+        var msg = plugin!!.config.getString("tg_messages.playerCommand")
+        if(msg == "" || msg == null) return
+        msg = msg.replace("%player%",e.player.name)
+        msg = msg.replace("%command%",e.message)
+        msg = msg.replace("%server%",plugin!!.config.getString("serverIdentifier")!!)
+        plugin!!.tgManager!!.sendMessageNotification(msg)
     }
 
     @EventHandler
     fun playerChatEvent(e: AsyncPlayerChatEvent){
-        plugin!!.tgManager!!.sendMessageNotification("<b>${e.player.name}</b> : ${e.message}")
+        var msg = plugin!!.config.getString("tg_messages.playerChat")
+        if(msg == "" || msg == null) return
+        msg = msg.replace("%player%",e.player.name)
+        msg = msg.replace("%message%",e.message)
+        msg = msg.replace("%server%",plugin!!.config.getString("serverIdentifier")!!)
+        plugin!!.tgManager!!.sendMessageNotification(msg)
     }
     @EventHandler
     fun playerKickEvent(e: PlayerKickEvent){
-        plugin!!.tgManager!!.sendMessageNotification("The player <b>${e.player.name}</b> has been kicked:\n<b>Reason</b>: ${e.reason}")
+        var msg = plugin!!.config.getString("tg_messages.playerKick")
+        if(msg == "" || msg == null) return
+        msg = msg.replace("%player%",e.player.name)
+        msg = msg.replace("%reason%",e.reason)
+        msg = msg.replace("%server%",plugin!!.config.getString("serverIdentifier")!!)
+        plugin!!.tgManager!!.sendMessageNotification(msg)
     }
 
 }

@@ -1,6 +1,7 @@
 package wozniaktv.telegramconnector.telegram
 
 import com.pengrad.telegrambot.TelegramBot
+import com.pengrad.telegrambot.model.Message
 import com.pengrad.telegrambot.model.request.ParseMode
 import com.pengrad.telegrambot.request.SendMessage
 import org.bukkit.scheduler.BukkitRunnable
@@ -11,14 +12,14 @@ class TelegramManager(plugin : Main) {
 
     private var plugin : Main ? = null
     private var tgNotificationBot : TelegramBot ? = null
-    private var chatId : Long ? = null
+    private var ownerId : Long ? = null
     private var insertedToken = false
     init{
         this.plugin = plugin
-        if(plugin.config.getString("notificationsBotToken")!="") insertedToken = true
+        if(plugin.config.getString("botToken")!="") insertedToken = true
         if(insertedToken){
-            chatId = plugin.config.getLong("authorizedChatId")
-            tgNotificationBot = TelegramBot(plugin.config.getString("notificationsBotToken"))
+            ownerId = plugin.config.getLong("ownerChatId")
+            tgNotificationBot = TelegramBot(plugin.config.getString("botToken"))
             plugin.logger.info("Notifications Bot Initialized.")
             tgNotificationBot!!.setUpdatesListener(Listener(plugin))
         }else{
@@ -73,15 +74,35 @@ class TelegramManager(plugin : Main) {
     fun sendMessageNotification(message: String){
         if(!insertedToken) return
         val msg = stringFilterDeprecatedColors(message)
+        val chatIdList : List<Long> = plugin!!.config.getLongList("ChatIDs")
         if(!plugin!!.enabledTgBot){
-            tgNotificationBot!!.execute(SendMessage(chatId,msg).parseMode(ParseMode.HTML))
+            for(id in chatIdList){
+                tgNotificationBot!!.execute(SendMessage(id,msg).parseMode(ParseMode.HTML))
+            }
+            if(!chatIdList.contains(ownerId)) tgNotificationBot!!.execute(SendMessage(ownerId,msg).parseMode(ParseMode.HTML))
             return
         }
         object : BukkitRunnable(){
             override fun run() {
-                tgNotificationBot!!.execute(SendMessage(chatId,msg).parseMode(ParseMode.HTML))
+                for(id in chatIdList){
+                    if(id == 0.toLong()) continue
+                    tgNotificationBot!!.execute(SendMessage(id,msg).parseMode(ParseMode.HTML))
+                }
+                if(!chatIdList.contains(ownerId)) tgNotificationBot!!.execute(SendMessage(ownerId,msg).parseMode(ParseMode.HTML))
             }
         }.runTaskAsynchronously(plugin!!)
+    }
+
+    fun replyToMessage(textMessage: String, msgToReply: Message){
+
+        object : BukkitRunnable(){
+
+            override fun run() {
+                tgNotificationBot!!.execute(SendMessage(msgToReply.chat().id(),textMessage).replyToMessageId(msgToReply.messageId()).parseMode(ParseMode.HTML))
+            }
+
+        }.runTaskAsynchronously(plugin!!)
+
     }
 
 

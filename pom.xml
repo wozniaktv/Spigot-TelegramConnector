@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>wozniaktv</groupId>
-    <artifactId>TelegramConnector</artifactId>
-    <version>Release-1.2</version>
+    <artifactId>TelegramConnectorPremium</artifactId>
+    <version>Beta-0.1</version>
     <packaging>jar</packaging>
 
-    <name>TelegramConnector</name>
+    <name>TelegramConnectorPremium</name>
 
-    <description>Connette il tuo server con due bot di Telegram</description>
+    <description>Connects your Server with a Telegram Bot</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -100,6 +100,11 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ucanaccess</groupId>
+            <artifactId>ucanaccess</artifactId>
+            <version>4.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

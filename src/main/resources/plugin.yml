@@ -1,6 +1,10 @@
-name: TelegramConnector
+name: TelegramConnectorPremium
 version: '${project.version}'
 main: wozniaktv.telegramconnector.Main
 api-version: 1.19
 authors: [ WoZniaK_TV ]
-description: Connette il tuo server con due bot di Telegram
+description: Connects your Server with a Telegram Bot
+commands:
+  tgpreload:
+    usage: /tgpreload
+    description: Reload
