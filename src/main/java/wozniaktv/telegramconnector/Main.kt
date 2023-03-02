@@ -14,8 +14,6 @@ class Main : JavaPlugin() {
 
     var advancedLicense : AdvancedLicense ? = null
 
-    var dbManager : DbManager ? = null
-
     var enabledTgBot = false
 
     private var plEnabled = true
@@ -39,7 +37,6 @@ class Main : JavaPlugin() {
         tgManager = TelegramManager(this)
         tgManager!!.sendMessageNotification(config.getString("tg_messages.serverStarted")!!.replace("%server%",config.getString("serverIdentifier")!!))
         enabledTgBot = true
-        dbManager = DbManager(this)
         startCheckingLicenseTimer()
 
     }
