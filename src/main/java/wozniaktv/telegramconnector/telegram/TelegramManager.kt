@@ -6,6 +6,9 @@ import com.pengrad.telegrambot.model.request.ParseMode
 import com.pengrad.telegrambot.request.SendMessage
 import org.bukkit.scheduler.BukkitRunnable
 import wozniaktv.telegramconnector.Main
+import wozniaktv.telegramconnector.MyFilter
+import java.util.logging.LogManager
+import java.util.logging.Logger
 
 
 class TelegramManager(plugin : Main) {

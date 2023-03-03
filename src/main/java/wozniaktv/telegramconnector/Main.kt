@@ -6,6 +6,8 @@ import org.bukkit.scheduler.BukkitRunnable
 import wozniaktv.telegramconnector.commands.ReloadCommand
 import wozniaktv.telegramconnector.database.DbManager
 import wozniaktv.telegramconnector.telegram.TelegramManager
+import java.util.logging.Handler
+import java.util.logging.Logger
 
 
 class Main : JavaPlugin() {

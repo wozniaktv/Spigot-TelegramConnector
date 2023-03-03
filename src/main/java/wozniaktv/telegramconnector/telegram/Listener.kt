@@ -13,11 +13,12 @@ class Listener(main : Main) : UpdatesListener {
         this.main = main
     }
 
-    override fun process(updates: MutableList<Update>?): Int {
+    override fun process(updates: MutableList<Update>?) : Int {
 
-        if(!main!!.enabledTgBot) return UpdatesListener.CONFIRMED_UPDATES_ALL
+        if(!main!!.enabledTgBot) return UpdatesListener.CONFIRMED_UPDATES_NONE
 
-        if(updates==null) return UpdatesListener.CONFIRMED_UPDATES_ALL
+        if(updates==null) return UpdatesListener.CONFIRMED_UPDATES_NONE
+
         val chatIdList : List<Long> = main!!.config.getLongList("ChatIDs")
         val adminIdList : List<Long> = main!!.config.getLongList("AdminIDs")
         for(up in updates){
@@ -52,7 +53,7 @@ class Listener(main : Main) : UpdatesListener {
 
         }
 
-        return UpdatesListener.CONFIRMED_UPDATES_ALL
+        return UpdatesListener.CONFIRMED_UPDATES_NONE
     }
 
 }
