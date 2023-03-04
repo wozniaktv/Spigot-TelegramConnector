@@ -15,21 +15,20 @@ class Listener(main : Main) : UpdatesListener {
 
     override fun process(updates: MutableList<Update>?) : Int {
 
-        if(!main!!.enabledTgBot) return UpdatesListener.CONFIRMED_UPDATES_NONE
+        if(!main!!.enabledTgBot) return UpdatesListener.CONFIRMED_UPDATES_ALL
 
-        if(updates==null) return UpdatesListener.CONFIRMED_UPDATES_NONE
+        if(updates==null) return UpdatesListener.CONFIRMED_UPDATES_ALL
 
         val chatIdList : List<Long> = main!!.config.getLongList("ChatIDs")
         val adminIdList : List<Long> = main!!.config.getLongList("AdminIDs")
+
         for(up in updates){
+
+            if(up.message().text()==null) continue
 
             if(up.message().from().isBot) continue
 
-            if(up.message()==null) continue
 
-            if(up.message().from()==null) continue
-
-            if(up.message().text()==null) continue
 
             if(up.message().chat().id()!=main!!.config.getLong("ownerChatId") && main!!.config.getBoolean("findChatId")){
                 main!!.server.logger.info("chatID: ${up.message().chat().id()}")
@@ -53,7 +52,7 @@ class Listener(main : Main) : UpdatesListener {
 
         }
 
-        return UpdatesListener.CONFIRMED_UPDATES_NONE
+        return UpdatesListener.CONFIRMED_UPDATES_ALL
     }
 
 }

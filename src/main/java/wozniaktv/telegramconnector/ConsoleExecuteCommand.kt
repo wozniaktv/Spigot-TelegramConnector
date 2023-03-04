@@ -43,6 +43,7 @@ class ConsoleExecuteCommand(cmd : String, fromMessage : Message) : BukkitRunnabl
 
                     }
                     main.tgManager!!.replyToMessage("Custom config.yml command '<code>${main.config.getString("customCommands.$i.invocation")}</code>' has been executed.",fromMsg)
+                    main.logger.info("The user ${fromMsg.from().username()} [${fromMsg.from().id()}] executed the custom config.yml command: \"${command}\"")
 
                 }
             }
@@ -58,7 +59,7 @@ class ConsoleExecuteCommand(cmd : String, fromMessage : Message) : BukkitRunnabl
         main.server.dispatchCommand(cmdRunner,command)
         main.tgManager!!.replyToMessage("<b>Command Executed</b>: <code>${command}</code>",fromMsg)
         main.tgManager!!.replyToMessage("<code>${cmdRunner.messageLogStripColor}</code>",fromMsg)
-        main.logger.info("The user ${fromMsg.from().username()} executed the command: \"$command\"")
+        main.logger.info("The user ${fromMsg.from().username()} [${fromMsg.from().id()}] executed the command: \"$command\"")
         cmdRunner.clearMessageLog()
     }
 
