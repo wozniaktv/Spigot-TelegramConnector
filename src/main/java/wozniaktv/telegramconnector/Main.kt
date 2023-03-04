@@ -20,7 +20,6 @@ class Main : JavaPlugin() {
         tgManager = TelegramManager(this)
         tgManager!!.sendMessageNotification("Server is <b>online</b>! =)")
         enabledTgBot = true
-        //startCheckingLicenseTimer()
 
     }
 
