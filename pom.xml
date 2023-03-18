@@ -6,7 +6,7 @@
 
     <groupId>wozniaktv</groupId>
     <artifactId>TelegramConnector</artifactId>
-    <version>Release-1.3</version>
+    <version>Release-1.4</version>
     <packaging>jar</packaging>
 
     <name>TelegramConnector</name>

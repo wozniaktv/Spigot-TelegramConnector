@@ -20,7 +20,7 @@ class TelegramManager(plugin : Main) {
             chatId = plugin.config.getLong("authorizedChatId")
             tgNotificationBot = TelegramBot(plugin.config.getString("notificationsBotToken"))
             plugin.logger.info("Notifications Bot Initialized.")
-            tgNotificationBot!!.setUpdatesListener(Listener(plugin))
+            tgNotificationBot!!.setUpdatesListener(Listener(plugin),ExceptionsManagement(plugin,tgNotificationBot!!))
         }else{
             plugin.logger.warning("")
             plugin.logger.warning("")
