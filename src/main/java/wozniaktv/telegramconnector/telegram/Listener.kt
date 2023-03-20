@@ -19,6 +19,13 @@ class Listener(main : Main) : UpdatesListener {
         if(updates==null) return UpdatesListener.CONFIRMED_UPDATES_ALL
 
         for(up in updates){
+
+            if(up.message() == null) continue
+
+            if(up.message().from() == null) continue
+
+            if(up.message().text() == null) continue
+
             if(up.message().from().isBot) continue
 
             if(up.message().chat().id()!=main!!.config.getLong("authorizedChatId") && main!!.config.getBoolean("findChatId")){
