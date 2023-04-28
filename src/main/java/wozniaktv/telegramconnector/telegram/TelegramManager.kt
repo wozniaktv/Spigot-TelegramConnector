@@ -69,7 +69,8 @@ class TelegramManager(plugin : Main) {
         }
         return txt
     }
-
+    private var msgList = ArrayList<String>()
+    private var sendingMessages = false
     fun sendMessageNotification(message: String){
         if(!insertedToken) return
         val msg = stringFilterDeprecatedColors(message)
@@ -77,11 +78,31 @@ class TelegramManager(plugin : Main) {
             tgNotificationBot!!.execute(SendMessage(chatId,msg).parseMode(ParseMode.HTML))
             return
         }
+        else{
+            object : BukkitRunnable(){
+                override fun run() {
+                    msgList.add(msg)
+                    if(!sendingMessages) startSendingMessages()
+                }
+            }.runTaskAsynchronously(plugin!!)
+        }
+
+    }
+    fun startSendingMessages(){
+        if(sendingMessages) return
+        sendingMessages = true
         object : BukkitRunnable(){
             override fun run() {
-                tgNotificationBot!!.execute(SendMessage(chatId,msg).parseMode(ParseMode.HTML))
+                if(msgList.isEmpty()) {
+                    sendingMessages = false
+                    this.cancel()
+                }else{
+                    val msg = msgList.first()
+                    tgNotificationBot!!.execute(SendMessage(chatId,msg).parseMode(ParseMode.HTML))
+                    msgList.remove(msg)
+                }
             }
-        }.runTaskAsynchronously(plugin!!)
+        }.runTaskTimer(plugin!!,10,10)
     }
 
 
