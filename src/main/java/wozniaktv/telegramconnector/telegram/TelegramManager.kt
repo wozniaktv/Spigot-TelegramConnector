@@ -28,6 +28,7 @@ class TelegramManager(plugin : Main) {
             plugin.logger.warning("")
             plugin.logger.warning("")
         }
+        startSendingMessages()
     }
 
     /*fun sendMessageConsole(message: String){
@@ -70,7 +71,6 @@ class TelegramManager(plugin : Main) {
         return txt
     }
     private var msgList = ArrayList<String>()
-    private var sendingMessages = false
     fun sendMessageNotification(message: String){
         if(!insertedToken) return
         val msg = stringFilterDeprecatedColors(message)
@@ -79,28 +79,21 @@ class TelegramManager(plugin : Main) {
             return
         }
         else{
-            object : BukkitRunnable(){
-                override fun run() {
-                    msgList.add(msg)
-                    if(!sendingMessages) startSendingMessages()
-                }
-            }.runTaskAsynchronously(plugin!!)
+            msgList.add(message)
         }
 
     }
-    fun startSendingMessages(){
-        if(sendingMessages) return
-        sendingMessages = true
+    private fun startSendingMessages(){
         object : BukkitRunnable(){
             override fun run() {
-                if(msgList.isEmpty()) {
-                    sendingMessages = false
-                    this.cancel()
-                }else{
+                if(!msgList.isEmpty()){
+
                     val msg = msgList.first()
                     tgNotificationBot!!.execute(SendMessage(chatId,msg).parseMode(ParseMode.HTML))
                     msgList.remove(msg)
+
                 }
+
             }
         }.runTaskTimer(plugin!!,10,10)
     }
