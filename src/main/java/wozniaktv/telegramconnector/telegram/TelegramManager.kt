@@ -90,7 +90,7 @@ class TelegramManager(plugin : Main) {
 
                     val msg = msgList.first()
                     tgNotificationBot!!.execute(SendMessage(chatId,msg).parseMode(ParseMode.HTML))
-                    msgList.remove(msg)
+                    msgList.removeFirst()
 
                 }
 
